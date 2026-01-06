@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LightManus
 
 <div align="center">
@@ -440,3 +441,6 @@ config.load_config("config.prod.yaml")
 Made with ❤️ by LightManus Team
 
 </div>
+=======
+# NatureGAIA: A Verifiable Benchmark and Hierarchical Framework for Long-Horizon GUI Tasks
+>>>>>>> efcdac0a5b4435eba2b036c578a253803ac1a706
