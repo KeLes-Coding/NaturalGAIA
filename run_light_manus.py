@@ -49,7 +49,7 @@ def run_decomposition(
 def main():
     """主执行函数，协调分解和执行"""
     print("=" * 50)
-    print("--- 开始运行 Jarvis (Refactored V2) ---")
+    print("--- 开始运行 LightManus 框架 ---")
     print("=" * 50)
 
     # 从配置加载器获取配置
@@ -122,19 +122,19 @@ def main():
         # --- 报告最终结果 ---
         print("\n" + "=" * 50)
         if execution_success:
-            print("--- Jarvis 任务执行流程成功完成 ---")
+            print("--- LightManus 任务执行流程成功完成 ---")
             print(
                 f"最终结果已保存至日志目录: '{log_directory}' (Task_Split_Final.json)"
             )
         else:
-            print("--- Jarvis 任务执行流程失败或中止 ---")
+            print("--- LightManus 任务执行流程失败或中止 ---")
             print(f"请检查日志目录 '{log_directory}' 中的详细日志和中间文件。")
         print("=" * 50)
 
     else:
         # 分解失败
         print("\n" + "=" * 50)
-        print("--- Jarvis 任务分解失败，无法继续执行 ---")
+        print("--- LightManus 任务分解失败，无法继续执行 ---")
         print("=" * 50)
 
 
