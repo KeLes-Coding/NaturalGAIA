@@ -1,148 +1,174 @@
 # NaturalGAIA & LightManus
+
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-
-**NaturalGAIA: 面向长时序 GUI 任务的可验证基准**  
-**LightManus: 动态拓扑规划与分层协作 Agent 框架**
-
-## 📖 简介 (Introduction)
-
-本项目是论文 "NaturalGAIA: A Verifiable Benchmark and Hierarchical Framework for Long-Horizon GUI Tasks" 的官方实现。我们致力于解决当前 GUI Agent 领域中**高保真现实性（High-fidelity Realism）与可验证评估准确性（Verifiable Evaluation Accuracy）**难以兼得的问题。
-
-本项目包含两个核心部分：
-
-### NaturalGAIA (Benchmark)
-
-一个基于真实人类 GUI 交互意图构建的可验证评估数据集。它通过解耦逻辑因果路径与语言叙述，模拟了具有认知非线性和上下文依赖性的自然人类意图。
+[![Paper](https://img.shields.io/badge/Paper-ACL%202026-red.svg)](#)
+[![Framework](https://img.shields.io/badge/Framework-Hierarchical%20Agent-blueviolet.svg)]()
 
 <div align="center">
-<img src="static/BG-1.png" width="50%" alt="NaturalGAIA Dataset Construction Process">
 
-*图 1: NaturalGAIA 数据集构建流程 (Dataset Construction)*
+![LightManus](static/main_v1_2512125-1.png)
+
+**NaturalGAIA: A Verifiable Benchmark for Long-Horizon GUI Tasks**
+**LightManus: Dynamic Topological Planning & Hierarchical Collaborative Agent Framework**
+
+[🚀 Quick Start](#-quick-start) • [📚 Documentation](#-project-structure) • [📊 Benchmarks](#-benchmarks) • [🌐 中文版](README_CN.md)
+
 </div>
 
-### LightManus & Jarvis (Framework)
+---
 
-一个分层协作框架。
-- **LightManus**: 作为"大脑"，负责动态拓扑规划（Dynamic Topological Planning）和上下文演进管理
-- **Jarvis/Operation Agents**: 作为"手"，通过混合视觉-结构感知（Hybrid Visual-Structural Perception）确保在 Android、PC 等多平台上的执行精度
+## 📖 Introduction
 
-实验表明，该框架在 Weighted Pathway Success Rate (WPSR) 上达到了 **57.0%**，显著优于现有基线。
+This project is the official implementation of the paper **"NaturalGAIA: A Verifiable Benchmark and Hierarchical Framework for Long-Horizon GUI Tasks"**. We address the fundamental challenge in GUI Agent domain where **High-fidelity Realism** and **Verifiable Evaluation Accuracy** are difficult to achieve simultaneously.
 
-## 🏗️ 架构设计 (Architecture)
+### Core Components
 
-本框架采用分层设计，代码结构与论文逻辑高度一致。下图展示了 LightManus 如何作为大脑进行规划，以及 Jarvis 等 Agent 如何作为手进行执行：
+Our solution consists of two main parts:
+
+#### 🌟 NaturalGAIA (Benchmark)
+
+A verifiable evaluation dataset built on real human GUI interaction intentions. It simulates natural human intentions with cognitive nonlinearity and context dependency by decoupling logical causal paths from language narratives.
 
 <div align="center">
-<img src="static/main_v1_2512125-1.png" width="100%" alt="LightManus Framework Architecture">
 
-*图 2: LightManus & Jarvis 分层协作框架架构图 (Main Architecture)*
+![NaturalGAIA Dataset](static/BG-1.png)
+
+*Figure 1: NaturalGAIA Dataset Construction Process*
+
+</div>
+
+#### ⚡ LightManus & Jarvis (Framework)
+
+A hierarchical collaborative framework featuring:
+
+- **LightManus**: Acts as the "brain", responsible for **Dynamic Topological Planning** and **Context Evolution Management**
+- **Jarvis/Operation Agents**: Acts as the "hands", ensuring execution accuracy across Android, PC, and other platforms through **Hybrid Visual-Structural Perception**
+
+The framework achieves **57.0%** on Weighted Pathway Success Rate (WPSR), significantly outperforming existing baselines.
+
+---
+
+## 🏗️ Architecture
+
+The framework employs a layered design with code structure closely aligned with the paper's logic. The following diagram shows how LightManus acts as the brain for planning, and how Jarvis and other Agents act as hands for execution:
+
+<div align="center">
+
+![LightManus Architecture](static/main_v1_2512125-1.png)
+
+*Figure 2: LightManus & Jarvis Hierarchical Collaborative Framework*
+
 </div>
 
 <details>
-<summary>点击查看 Mermaid 架构流程图</summary>
+<summary>Click to view Architecture Flow</summary>
 
-```mermaid
-graph TD
-    User[用户指令] --> LM[LightManus (Task Decomposer)]
-    LM -->|原子任务序列| TE[Task Executor Agent]
-    
-    subgraph "执行层 (Operation Agents)"
-        TE -->|路由分发| Jarvis[Jarvis (Android)]
-        TE -->|路由分发| MAE[Mobile-Agent-E (移动端视觉)]
-        TE -->|路由分发| PC[PC-Agent (Windows/macOS)]
-    end
-    
-    Jarvis -->|执行反馈| TE
-    MAE -->|执行反馈| TE
-    PC -->|执行反馈| TE
-    
-    TE -->|最终状态| AV[Answer Validation Agent]
-    AV -->|验证结果| Report[评估报告]
-```
+**Workflow:**
+
+1. **User Input** → **LightManus (Task Decomposer)**
+   - LightManus receives the user's natural language instruction
+   - Decomposes complex tasks into atomic task sequences
+
+2. **Task Executor Agent** → **Route Distribution**
+   - Distributes atomic tasks to appropriate Operation Agents
+   - Supports: Jarvis (Android), Mobile-Agent-E (Mobile Vision), PC-Agent (Windows/macOS)
+
+3. **Operation Agents** → **Execution & Feedback**
+   - Each agent executes its assigned tasks
+   - Provides execution feedback back to the Task Executor
+
+4. **Task Executor** → **Answer Validation Agent**
+   - Collects final execution state
+   - Performs dual-level verification (semantic + state-level)
+
+5. **Evaluation Report**
+   - Generates comprehensive benchmark results
 </details>
 
-### 核心组件
+### Core Components
 
 #### Task Decomposer (LightManus)
-- **位置**: `src/Agent/task_decompose_agent.py`
-- **功能**: 负责将复杂的自然语言指令分解为原子任务（Atomic Tasks），并处理任务间的依赖关系
+- **Location**: `src/Agent/task_decompose_agent.py`
+- **Function**: Decomposes complex natural language instructions into atomic tasks and handles dependencies between tasks
 
 #### Operation Agents
 
 **Jarvis**
-- **位置**: `src/Agent/Operation_Agent/Jarvis`
-- **功能**: 基于 ADB 的 Android 设备深度控制，支持 View Hierarchy 分析
+- **Location**: `src/Agent/Operation_Agent/Jarvis`
+- **Function**: ADB-based deep Android device control with View Hierarchy analysis
 
 **Mobile-Agent-E**
-- **位置**: `src/Agent/Operation_Agent/Mobile-Agent-E`
-- **功能**: 基于纯视觉大模型的移动端 Agent，适用于复杂 UI 场景
+- **Location**: `src/Agent/Operation_Agent/Mobile-Agent-E`
+- **Function**: Pure vision language model-based mobile Agent for complex UI scenarios
 
 **PC-Agent**
-- **位置**: `src/Agent/Operation_Agent/PC-Agent`
-- **功能**: 支持 Windows 和 macOS 的桌面自动化操作
+- **Location**: `src/Agent/Operation_Agent/PC-Agent`
+- **Function**: Desktop automation for Windows and macOS
 
 #### Answer Validator
-- **位置**: `src/Agent/answer_validation_agent.py`
-- **功能**: 利用 LLM 对任务执行结果进行语义级和状态级的双重验证，确保基准测试的准确性
+- **Location**: `src/Agent/answer_validation_agent.py`
+- **Function**: Uses LLM for dual-level verification (semantic and state-level) of task execution results, ensuring benchmark accuracy
 
-## 🚀 快速开始 (Quick Start)
+---
 
-### 1. 环境准备
+## 🚀 Quick Start
+
+### 1. Environment Setup
 
 ```bash
-# 克隆项目
+# Clone the repository
 git clone https://anonymous.4open.science/r/NatureGAIA-721F/
 cd NaturalGAIA
 
-# 创建并激活 Conda 环境（推荐）
+# Create and activate Conda environment (recommended)
 conda create -n naturalgaia python=3.10
 conda activate naturalgaia
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. 配置文件
+### 2. Configuration
 
-项目使用 `config.yaml` 进行统一管理。如果需要重置配置，可以从模板恢复：
+The project uses `config.yaml` for unified management. To reset configuration from template:
 
 ```bash
-# 可选：如果需要重置配置
+# Optional: Reset configuration if needed
 cp config.template.yaml config.yaml
 ```
 
-编辑 `config.yaml`，关键配置项说明如下：
+Key configuration items in `config.yaml`:
 
 ```yaml
 lightmanus:
   task_loader:
-    json_path: "task/0101.json"  # 指定要执行的任务文件
+    json_path: "task/0101.json"  # Specify task file to execute
 
-  # 任务分解器 (LightManus Core)
+  # Task Decomposer (LightManus Core)
   task_decomposer:
     api_url: "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
-    api_key: "YOUR_API_KEY"      # 推荐使用 Qwen-VL-Max 或类似高性能模型
+    api_key: "YOUR_API_KEY"      # Recommended: Qwen-VL-Max or similar high-performance model
     model: "qwen-vl-max"
 
-  # 答案验证器
+  # Answer Validator
   answer_validator:
-    model: "deepseek-v3"         # 验证模块建议使用推理能力强的模型
+    model: "deepseek-v3"         # Verification module suggests using models with strong reasoning
 
-# Agent 具体配置
+# Agent-specific configuration
 jarvis:
   enabled: true
   adb:
-    executable_path: "adb"       # 确保系统环境变量中有 adb
+    executable_path: "adb"       # Ensure adb is in system environment variables
 ```
 
-### 3. 数据集与任务格式
+### 3. Dataset & Task Format
 
-NaturalGAIA 基准测试任务存储在 `task/` 目录下。标准的数据格式如下（JSON）：
+NaturalGAIA benchmark tasks are stored in the `task/` directory. Standard JSON format:
 
 ```json
 {
-  "Task": "使用 Wikipedia 搜索周杰伦，查看他在2000年发行的专辑？然后告诉我这张专辑包含哪些曲目？",
+  "Task": "Use Wikipedia to search for Jay Chou, check the album he released in 2000? Then tell me what tracks this album contains?",
   "Task_ID": "0101",
   "level": 1,
   "atomic_tasks_number": 2,
@@ -160,47 +186,51 @@ NaturalGAIA 基准测试任务存储在 `task/` 目录下。标准的数据格�
 }
 ```
 
-> **注**：`final_answer` 字段包含完整的最终答案，`atomic_tasks_answer` 数组包含每个原子任务的预期答案。
+> **Note**: The `final_answer` field contains the complete final answer, and the `atomic_tasks_answer` array contains expected answers for each atomic task.
 
-### 4. 运行评估
+### 4. Run Evaluation
 
-运行主程序即可启动 LightManus 框架对指定任务的推理与执行：
+Start the main program to launch the LightManus framework for inference and execution on specified tasks:
 
 ```bash
 python run_light_manus.py
 ```
 
-如果你希望运行完整的基准测试套件：
+To run the complete benchmark suite:
 
 ```bash
-# 运行 benchmark 模式（遍历 task 目录下的所有任务）
+# Run in benchmark mode (iterates through all tasks in task directory)
 python run_light_manus.py --benchmark
 ```
 
-## 📁 项目结构 (Project Structure)
+---
+
+## 📁 Project Structure
 
 ```
 NaturalGAIA/
-├── config.yaml                 # 用户配置文件
-├── run_light_manus.py          # 程序入口
+├── config.yaml                 # User configuration file
+├── run_light_manus.py          # Program entry point
 ├── src/
-│   ├── config_loader.py        # 配置加载模块
+│   ├── config_loader.py        # Configuration loading module
 │   └── Agent/
-│       ├── task_decompose_agent.py   # [LightManus] 任务规划与分解
-│       ├── task_execution_agent.py   # [Executor] 任务调度与执行
-│       ├── answer_validation_agent.py# [Validator] 结果验证
-│       └── Operation_Agent/          # 底层操作 Agent 集合
-│           ├── Jarvis/               # Android 结构化控制
-│           ├── Mobile-Agent-E/       # Android 视觉控制
-│           └── PC-Agent/             # 桌面端控制
-└── task/                       # NaturalGAIA Benchmark 数据集
+│       ├── task_decompose_agent.py   # [LightManus] Task planning & decomposition
+│       ├── task_execution_agent.py   # [Executor] Task scheduling & execution
+│       ├── answer_validation_agent.py# [Validator] Result verification
+│       └── Operation_Agent/          # Underlying operation Agent collection
+│           ├── Jarvis/               # Android structured control
+│           ├── Mobile-Agent-E/       # Android vision control
+│           └── PC-Agent/             # Desktop control
+└── task/                       # NaturalGAIA Benchmark dataset
 ```
 
-## 📊 性能基准 (Benchmarks)
+---
 
-我们在 NaturalGAIA 数据集上对比了 LightManus 与其他主流 Agent 框架的表现。以下是主要实验结果：
+## 📊 Benchmarks
 
-### 主要结果对比
+We compared LightManus with other mainstream Agent frameworks on the NaturalGAIA dataset. The following are the main experimental results:
+
+### Main Results Comparison
 
 | Method | Level-1 SR | Level-2 SR | Level-3 SR | Overall SR | Overall WPSR | Overall MAT/CR | Overall ATSR |
 |--------|------------|------------|------------|------------|--------------|----------------|--------------|
@@ -213,28 +243,43 @@ NaturalGAIA/
 | Mobile-Agent-e (Gemini-2.5-Pro) | 46.7% | 10.0% | 0.0% | 22.9% | 21.1% | 53.0% | 30.4% |
 | PC-Agent (Gemini-2.5-Pro) | 40.0% | 10.0% | 0.0% | 20.0% | 13.1% | 45.5% | 25.7% |
 
-### 性能效率对比
+### Performance Efficiency Comparison
 
 | Agent | Input Tokens | Output Tokens | Total Tokens | Average Steps | Duration (s) |
 |-------|--------------|---------------|--------------|---------------|--------------|
 | **Jarvis** | 16,904.8 | 2,276.2 | 19,181.0 | 6.9 | **84.1** |
 | Mobile-Agent-e | 67,311.4 | 9,154.6 | 76,466.0 | 7.2 | 365.2 |
 
-### 错误分析 (Error Analysis)
+### Error Analysis
 
-下图展示了不同模块在失败案例中的占比分析：
+The following chart shows the proportion analysis of different modules in failure cases:
 
 <div align="center">
-<img src="static/EA-1.png" width="50%" alt="Error Analysis Chart">
 
-*图 3: 错误分析 (Error Analysis)*
+![Error Analysis](static/EA-1.png)
+
+*Figure 3: Error Analysis*
+
 </div>
 
-> **注**：SR表示Success Rate (P@1/4)，WPSR表示Weighted Pathway Success Rate，MAT/CR表示路径准确率，ATSR表示平均任务成功率。粗体表示最佳性能，下划线表示次佳性能。详细实验设置与消融实验结果请参阅论文第 5 章节。
+> **Note**: SR = Success Rate (P@1/4), WPSR = Weighted Pathway Success Rate, MAT/CR = Path Accuracy Rate, ATSR = Average Task Success Rate. Bold indicates best performance, underline indicates second-best performance. For detailed experimental settings and ablation study results, please refer to Section 5 of the paper.
 
-## 🤝 贡献与引用 (Citation)
+---
 
-如果你在研究中使用了 NaturalGAIA 数据集或 LightManus 框架，请引用我们的论文：
+## 🎯 Key Features
+
+- ✅ **Dynamic Topological Planning**: Intelligent task decomposition and planning
+- ✅ **Hierarchical Collaboration**: Separation of planning (brain) and execution (hands)
+- ✅ **Multi-Platform Support**: Android, Windows, macOS
+- ✅ **Verifiable Evaluation**: Dual-level verification for accuracy
+- ✅ **High Performance**: 57.0% WPSR on NaturalGAIA benchmark
+- ✅ **Efficient Token Usage**: 2.7x fewer tokens than baseline
+
+---
+
+## 🤝 Citation
+
+If you use the NaturalGAIA dataset or LightManus framework in your research, please cite our paper:
 
 ```bibtex
 @article{naturalgaia2026,
@@ -245,6 +290,18 @@ NaturalGAIA/
 }
 ```
 
-## 📄 许可证
+---
 
-本项目采用 MIT License 授权。
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+
+**[🌐 中文版本](README_CN.md)** | **[🚀 Quick Start](#-quick-start)** | **[📊 Benchmarks](#-benchmarks)** | **[🔬 Paper](#-citation)**
+
+Made with ❤️ by the NaturalGAIA Team
+
+</div>
